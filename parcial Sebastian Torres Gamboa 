@@ -1,0 +1,885 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Sebastian-Torres-Gamboa/SenalesSistemas/blob/main/parcial%20Sebastian%20Torres%20Gamboa%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#**Parcial 2 Señales y Sistemas**\n",
+        "SEBASTIAN TORRES GAMBOA 1122530252"
+      ],
+      "metadata": {
+        "id": "TRN9W54wPCI-"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#Instalación de Librerías"
+      ],
+      "metadata": {
+        "id": "PprBiLDkPXbz"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install streamlit -q"
+      ],
+      "metadata": {
+        "id": "QeHgxGRgPWex",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "4160c876-add9-4e97-e06e-03d424c6d5d5"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m44.3/44.3 kB\u001b[0m \u001b[31m1.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m10.1/10.1 MB\u001b[0m \u001b[31m37.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m6.9/6.9 MB\u001b[0m \u001b[31m22.8 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m79.1/79.1 kB\u001b[0m \u001b[31m3.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install streamlit numpy scipy matplotlib yt-dlp pydub"
+      ],
+      "metadata": {
+        "id": "aKxyiN_YU_Az",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "933e5e19-1a83-4131-a8ae-a3aaf0e49d5b"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: streamlit in /usr/local/lib/python3.11/dist-packages (1.46.1)\n",
+            "Requirement already satisfied: numpy in /usr/local/lib/python3.11/dist-packages (2.0.2)\n",
+            "Requirement already satisfied: scipy in /usr/local/lib/python3.11/dist-packages (1.15.3)\n",
+            "Requirement already satisfied: matplotlib in /usr/local/lib/python3.11/dist-packages (3.10.0)\n",
+            "Collecting yt-dlp\n",
+            "  Downloading yt_dlp-2025.6.30-py3-none-any.whl.metadata (174 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m174.3/174.3 kB\u001b[0m \u001b[31m3.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hRequirement already satisfied: pydub in /usr/local/lib/python3.11/dist-packages (0.25.1)\n",
+            "Requirement already satisfied: altair<6,>=4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.5.0)\n",
+            "Requirement already satisfied: blinker<2,>=1.5.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (1.9.0)\n",
+            "Requirement already satisfied: cachetools<7,>=4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.5.2)\n",
+            "Requirement already satisfied: click<9,>=7.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (8.2.1)\n",
+            "Requirement already satisfied: packaging<26,>=20 in /usr/local/lib/python3.11/dist-packages (from streamlit) (24.2)\n",
+            "Requirement already satisfied: pandas<3,>=1.4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.2.2)\n",
+            "Requirement already satisfied: pillow<12,>=7.1.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (11.2.1)\n",
+            "Requirement already satisfied: protobuf<7,>=3.20 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.29.5)\n",
+            "Requirement already satisfied: pyarrow>=7.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (18.1.0)\n",
+            "Requirement already satisfied: requests<3,>=2.27 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.32.3)\n",
+            "Requirement already satisfied: tenacity<10,>=8.1.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (8.5.0)\n",
+            "Requirement already satisfied: toml<2,>=0.10.1 in /usr/local/lib/python3.11/dist-packages (from streamlit) (0.10.2)\n",
+            "Requirement already satisfied: typing-extensions<5,>=4.4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (4.14.0)\n",
+            "Requirement already satisfied: watchdog<7,>=2.1.5 in /usr/local/lib/python3.11/dist-packages (from streamlit) (6.0.0)\n",
+            "Requirement already satisfied: gitpython!=3.1.19,<4,>=3.0.7 in /usr/local/lib/python3.11/dist-packages (from streamlit) (3.1.44)\n",
+            "Requirement already satisfied: pydeck<1,>=0.8.0b4 in /usr/local/lib/python3.11/dist-packages (from streamlit) (0.9.1)\n",
+            "Requirement already satisfied: tornado!=6.5.0,<7,>=6.0.3 in /usr/local/lib/python3.11/dist-packages (from streamlit) (6.4.2)\n",
+            "Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (1.3.2)\n",
+            "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (0.12.1)\n",
+            "Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (4.58.4)\n",
+            "Requirement already satisfied: kiwisolver>=1.3.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (1.4.8)\n",
+            "Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (3.2.3)\n",
+            "Requirement already satisfied: python-dateutil>=2.7 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (2.9.0.post0)\n",
+            "Requirement already satisfied: jinja2 in /usr/local/lib/python3.11/dist-packages (from altair<6,>=4.0->streamlit) (3.1.6)\n",
+            "Requirement already satisfied: jsonschema>=3.0 in /usr/local/lib/python3.11/dist-packages (from altair<6,>=4.0->streamlit) (4.24.0)\n",
+            "Requirement already satisfied: narwhals>=1.14.2 in /usr/local/lib/python3.11/dist-packages (from altair<6,>=4.0->streamlit) (1.45.0)\n",
+            "Requirement already satisfied: gitdb<5,>=4.0.1 in /usr/local/lib/python3.11/dist-packages (from gitpython!=3.1.19,<4,>=3.0.7->streamlit) (4.0.12)\n",
+            "Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.11/dist-packages (from pandas<3,>=1.4.0->streamlit) (2025.2)\n",
+            "Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.11/dist-packages (from pandas<3,>=1.4.0->streamlit) (2025.2)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil>=2.7->matplotlib) (1.17.0)\n",
+            "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (3.4.2)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (3.10)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (2.4.0)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.11/dist-packages (from requests<3,>=2.27->streamlit) (2025.6.15)\n",
+            "Requirement already satisfied: smmap<6,>=3.0.1 in /usr/local/lib/python3.11/dist-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit) (5.0.2)\n",
+            "Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2->altair<6,>=4.0->streamlit) (3.0.2)\n",
+            "Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (25.3.0)\n",
+            "Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (2025.4.1)\n",
+            "Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (0.36.2)\n",
+            "Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=3.0->altair<6,>=4.0->streamlit) (0.26.0)\n",
+            "Downloading yt_dlp-2025.6.30-py3-none-any.whl (3.3 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m3.3/3.3 MB\u001b[0m \u001b[31m33.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hInstalling collected packages: yt-dlp\n",
+            "Successfully installed yt-dlp-2025.6.30\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#Crear carpeta pages para trabajar Multiapp Streamlit"
+      ],
+      "metadata": {
+        "id": "Z1dssh2XPxDp"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!mkdir pages"
+      ],
+      "metadata": {
+        "id": "q2jwsZGlP5CR"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#Página principal"
+      ],
+      "metadata": {
+        "id": "k5GICrXTP9IY"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%%writefile 0_👋_Inicio.py\n",
+        "\n",
+        "import streamlit as st  # Importa la biblioteca Streamlit para crear interfaces web interactivas\n",
+        "\n",
+        "# Configuración inicial de la página web\n",
+        "st.set_page_config(\n",
+        "    page_title=\"Explorador Interactivo SyS - Parcial 2\",  # Título que aparece en la pestaña del navegador\n",
+        "    page_icon=\"📘\",  # Icono de la pestaña del navegador\n",
+        ")\n",
+        "\n",
+        "# Divide la página en tres columnas con proporciones 1:4:1 para centrar el contenido\n",
+        "col_a, col_b, col_c = st.columns([1, 5, 1])  # col_b será la columna central principal\n",
+        "\n",
+        "# Sección de contenido centrado en la columna del medio\n",
+        "with col_b:\n",
+        "    # Título principal con estilo HTML (centrado, color y fuente personalizada)\n",
+        "    st.markdown(\"<h1 style='text-align: center; color: #0073e6; font-family: Segoe UI;'>PARCIAL NUMERO 2 SEÑALES Y SISTEMAS 2025-1</h1>\", unsafe_allow_html=True)\n",
+        "\n",
+        "    st.markdown(\"---\")  # Línea divisoria horizontal\n",
+        "\n",
+        "    # Texto de bienvenida y descripción general del propósito del dashboard\n",
+        "    st.markdown(\"\"\"\n",
+        "    Bienvenido al segundo parcial de Señales y Sistemas. Aquí puedes experimentar con simulaciones clave de la materia.\n",
+        "    \"\"\")\n",
+        "\n",
+        "    st.markdown(\"---\")  # Otra línea divisoria\n",
+        "\n",
+        "    # Subtítulo para la sección de instrucciones de navegación\n",
+        "    st.markdown(\"<h3 style='color: #0073e6; font-family: Segoe UI;'>¿Cómo navegar?</h3>\", unsafe_allow_html=True)\n",
+        "\n",
+        "    # Instrucciones sobre cómo utilizar el dashboard\n",
+        "    st.markdown(\"\"\"\n",
+        "    Usa el panel lateral izquierdo para acceder a cada componente del parcial y explorar su funcionamiento.\n",
+        "\n",
+        "\n",
+        "    \"\"\")\n",
+        "\n",
+        "    # Subtítulo para identificar al autor del proyecto\n",
+        "    st.markdown(\"<h3 style='color: #0073e6; font-family: Segoe UI;'>Autor del proyecto:</h3>\", unsafe_allow_html=True)\n",
+        "\n",
+        "    # Nombre del autor con el mismo estilo\n",
+        "    st.markdown(\"<h3 style='color: #0073e6; font-family: Segoe UI;'>Sebastian Torres Gamboa</h3>\", unsafe_allow_html=True)\n",
+        "\n",
+        "    # Número de identificación mostrado en negrita\n",
+        "    st.markdown(\"**Identificación:** 1122530252\")\n",
+        "\n",
+        "# Muestra un mensaje en la barra lateral para invitar al usuario a comenzar\n",
+        "st.sidebar.success(\"Selecciona una sección para comenzar.\")"
+      ],
+      "metadata": {
+        "id": "t5AZjVA_P-J2",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "48972e71-c822-4a5e-a807-890870f0f616"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Writing 0_👋_Inicio.py\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#Páginas\n",
+        "Cada página se debe enviar al directorio \\pages"
+      ],
+      "metadata": {
+        "id": "4IAzPmHKQMjX"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "##Punto 1:"
+      ],
+      "metadata": {
+        "id": "dPwf9hLWQOzl"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%%writefile 1_Modelo_2do_Orden.py\n",
+        "\n",
+        "# === Importación de librerías ===\n",
+        "import streamlit as interfaz  # Renombramos 'st' por 'interfaz' para mayor claridad\n",
+        "import numpy as np  # Librería numérica\n",
+        "import scipy.signal as sim  # Módulo para análisis y simulación de sistemas lineales\n",
+        "import matplotlib.pyplot as plt  # Para la generación de gráficos\n",
+        "\n",
+        "# === Configuración general del dashboard ===\n",
+        "interfaz.set_page_config(\n",
+        "    page_title=\"Simulador de Sistemas Segundo Orden\",  # Título en la pestaña del navegador\n",
+        "    page_icon=\"📘\",  # Icono personalizado\n",
+        "    layout=\"wide\",  # Utilizar el ancho completo de pantalla\n",
+        ")\n",
+        "\n",
+        "# Título de la página con estilo HTML personalizado\n",
+        "interfaz.markdown(\n",
+        "    \"<h1 style='color: #0073e6; font-family: Segoe UI;'>📘 Plataforma Interactiva - Sistemas de Segundo Orden</h1>\",\n",
+        "    unsafe_allow_html=True,\n",
+        ")\n",
+        "\n",
+        "# Descripción introductoria del objetivo del panel\n",
+        "interfaz.write(\n",
+        "    \"Explora modelos dinámicos de segundo orden, como el sistema masa-resorte-amortiguador y su representación eléctrica equivalente.\"\n",
+        ")\n",
+        "\n",
+        "# === Controles desde la barra lateral ===\n",
+        "interfaz.sidebar.header(\"🎚️ Ajustes del Sistema\")  # Encabezado lateral\n",
+        "\n",
+        "# Menú desplegable para seleccionar tipo de respuesta del sistema\n",
+        "tipo_respuesta = interfaz.sidebar.selectbox(\n",
+        "    \"1. Comportamiento del Sistema\",\n",
+        "    (\n",
+        "        \"Subamortiguado\",\n",
+        "        \"Amortiguamiento Crítico\",\n",
+        "        \"Sobreamortiguado\",\n",
+        "        \"Inestable\",\n",
+        "    ),\n",
+        "    help=\"Determina la dinámica del sistema con base en el amortiguamiento.\",\n",
+        ")\n",
+        "\n",
+        "# Control del parámetro ζ (amortiguamiento)\n",
+        "if tipo_respuesta == \"Subamortiguado\":\n",
+        "    amortiguamiento = interfaz.sidebar.slider(\"Coeficiente ζ\", 0.01, 0.99, 0.3, 0.01)\n",
+        "elif tipo_respuesta == \"Amortiguamiento Crítico\":\n",
+        "    amortiguamiento = 1.0\n",
+        "    interfaz.sidebar.info(\"ζ se establece en 1 para el caso crítico.\")\n",
+        "elif tipo_respuesta == \"Sobreamortiguado\":\n",
+        "    amortiguamiento = interfaz.sidebar.slider(\"Coeficiente ζ\", 1.1, 5.0, 1.5, 0.1)\n",
+        "else:  # Inestable\n",
+        "    amortiguamiento = interfaz.sidebar.slider(\"Coeficiente ζ\", -1.0, -0.01, -0.5, 0.01)\n",
+        "\n",
+        "# Control de frecuencia natural ωn\n",
+        "frecuencia_natural = interfaz.sidebar.slider(\n",
+        "    \"Frecuencia Natural ωₙ [rad/s]\", 1.0, 20.0, 5.0, 0.5,\n",
+        "    help=\"Oscilación propia del sistema sin disipación.\",\n",
+        ")\n",
+        "\n",
+        "# Separador visual en el sidebar\n",
+        "interfaz.sidebar.markdown(\"---\")\n",
+        "\n",
+        "# Información adicional en la barra lateral\n",
+        "interfaz.sidebar.info(\n",
+        "    \"**Fuente:** Simulación Parcial 2 SyS 2025\\n\\n\"\n",
+        "    \"**Docente:** Andrés Marino Álvarez Meza, Ph.D.\"\n",
+        ")\n",
+        "\n",
+        "# === Construcción del modelo del sistema ===\n",
+        "\n",
+        "# Definición del sistema en lazo abierto (G_ol)\n",
+        "numerador_abierto = [frecuencia_natural ** 2]\n",
+        "denominador_abierto = [1, 2 * amortiguamiento * frecuencia_natural, frecuencia_natural ** 2]\n",
+        "sistema_abierto = sim.TransferFunction(numerador_abierto, denominador_abierto)\n",
+        "\n",
+        "# Definición del sistema en lazo cerrado (G_cl = G_ol / (1 + G_ol))\n",
+        "numerador_cerrado = numerador_abierto\n",
+        "denominador_cerrado = [\n",
+        "    denominador_abierto[0],\n",
+        "    denominador_abierto[1],\n",
+        "    denominador_abierto[2] + numerador_abierto[0],\n",
+        "]\n",
+        "sistema_cerrado = sim.TransferFunction(numerador_cerrado, denominador_cerrado)\n",
+        "\n",
+        "# === Cálculo de parámetros físicos ===\n",
+        "\n",
+        "# Parámetros mecánicos (m = 1kg)\n",
+        "masa = 1.0\n",
+        "constante_k = (frecuencia_natural ** 2) * masa\n",
+        "coef_amortiguador = 2 * amortiguamiento * frecuencia_natural * masa\n",
+        "\n",
+        "# Parámetros eléctricos equivalentes (asumiendo C = 1 F)\n",
+        "capacitancia = 1.0\n",
+        "if amortiguamiento != 0 and frecuencia_natural != 0:\n",
+        "    resistencia = 1 / (2 * amortiguamiento * frecuencia_natural * capacitancia)\n",
+        "    inductancia = 1 / ((frecuencia_natural ** 2) * capacitancia)\n",
+        "else:\n",
+        "    resistencia, inductancia = float(\"inf\"), float(\"inf\")\n",
+        "\n",
+        "# === Inicialización de variables para resultados temporales ===\n",
+        "ts, tp, mp, tr = None, None, None, None  # ts: establecimiento, tp: pico, mp: sobreimpulso, tr: subida\n",
+        "\n",
+        "# === Cálculo según el tipo de respuesta ===\n",
+        "if 0 < amortiguamiento < 1:\n",
+        "    ts = 4 / (amortiguamiento * frecuencia_natural)\n",
+        "    tp = np.pi / (frecuencia_natural * np.sqrt(1 - amortiguamiento ** 2))\n",
+        "    mp = 100 * np.exp((-amortiguamiento * np.pi) / np.sqrt(1 - amortiguamiento ** 2))\n",
+        "\n",
+        "    # Tiempo de subida aproximado entre 10% y 90% de la respuesta\n",
+        "    tiempo_resp, salida_resp = sim.step(sistema_cerrado)\n",
+        "    try:\n",
+        "        valor_final = salida_resp[-1]\n",
+        "        tr_10 = tiempo_resp[np.where(salida_resp >= 0.1 * valor_final)[0][0]]\n",
+        "        tr_90 = tiempo_resp[np.where(salida_resp >= 0.9 * valor_final)[0][0]]\n",
+        "        tr = tr_90 - tr_10\n",
+        "    except IndexError:\n",
+        "        tr = \"No calculable\"\n",
+        "\n",
+        "elif amortiguamiento < 0:\n",
+        "    ts = tr = mp = tp = \"No aplica (Sistema inestable)\"\n",
+        "\n",
+        "else:  # Sobreamortiguado o crítico\n",
+        "    mp = 0.0\n",
+        "    tp = \"No aplica\"\n",
+        "    tiempo_resp, salida_resp = sim.step(sistema_cerrado)\n",
+        "    valor_final = salida_resp[-1]\n",
+        "\n",
+        "    if valor_final > 1e-6:\n",
+        "        try:\n",
+        "            margen = 0.02 * valor_final\n",
+        "            estable_idx = np.where(np.abs(salida_resp - valor_final) >= margen)[0]\n",
+        "            ts = tiempo_resp[estable_idx[-1]] if estable_idx.size > 0 else 0.0\n",
+        "            tr_10 = np.where(salida_resp >= 0.1 * valor_final)[0]\n",
+        "            tr_90 = np.where(salida_resp >= 0.9 * valor_final)[0]\n",
+        "            tr = (\n",
+        "                tiempo_resp[tr_90[0]] - tiempo_resp[tr_10[0]]\n",
+        "                if tr_10.size > 0 and tr_90.size > 0\n",
+        "                else \"No calculable\"\n",
+        "            )\n",
+        "        except Exception:\n",
+        "            ts = tr = \"Error numérico\"\n",
+        "    else:\n",
+        "        ts = tr = \"N/A\"\n",
+        "\n",
+        "# === Visualización de resultados calculados ===\n",
+        "\n",
+        "# Dos columnas para mostrar valores físicos y temporales\n",
+        "col_izq, col_der = interfaz.columns(2)\n",
+        "\n",
+        "# Columna izquierda: valores físicos estimados\n",
+        "with col_izq:\n",
+        "    interfaz.markdown(\"<h3 style='color: #0073e6; font-family: Segoe UI;'>🔧 Parámetros del Modelo</h3>\", unsafe_allow_html=True)\n",
+        "    interfaz.markdown(\"Basados en los valores seleccionados para ζ y ωₙ.\")\n",
+        "\n",
+        "    interfaz.markdown(\"<h5 style='color: #0073e6; font-family: Segoe UI;'>Sistema Mecánico</h5>\", unsafe_allow_html=True)\n",
+        "    interfaz.code(f\"Masa (m): {masa:.2f} kg\\nResorte (k): {constante_k:.2f} N/m\\nAmortiguador (c): {coef_amortiguador:.2f} Ns/m\")\n",
+        "\n",
+        "    interfaz.markdown(\"<h5 style='color: #0073e6; font-family: Segoe UI;'>Modelo Eléctrico</h5>\", unsafe_allow_html=True)\n",
+        "    interfaz.code(f\"Resistencia (R): {resistencia:.2f} Ω\\nInductancia (L): {inductancia:.2f} H\\nCapacitancia (C): {capacitancia:.2f} F\")\n",
+        "\n",
+        "# Columna derecha: resultados de respuesta temporal\n",
+        "with col_der:\n",
+        "    interfaz.markdown(\"<h3 style='color: #0073e6; font-family: Segoe UI;'>⏱️ Respuesta Temporal</h3>\", unsafe_allow_html=True)\n",
+        "    interfaz.markdown(\"Indicadores clave ante una entrada escalón.\")\n",
+        "\n",
+        "    if 0 < amortiguamiento < 1:\n",
+        "        interfaz.code(\n",
+        "            f\"Tr (Subida): {tr if isinstance(tr, str) else f'{tr:.3f} s'}\\n\"\n",
+        "            f\"Mp (Sobreimpulso): {mp:.2f} %\\n\"\n",
+        "            f\"Tp (Pico): {tp:.3f} s\\n\"\n",
+        "            f\"Ts (Establecimiento): {ts:.3f} s\"\n",
+        "        )\n",
+        "    elif amortiguamiento < 0:\n",
+        "        interfaz.warning(\"El sistema es inestable. No se definen métricas temporales.\")\n",
+        "    else:\n",
+        "        interfaz.info(\"No hay sobreimpulso ni pico en este régimen.\")\n",
+        "        interfaz.code(\n",
+        "            f\"Ts (Establecimiento): {ts if isinstance(ts, str) else f'{ts:.3f} s'}\\n\"\n",
+        "            f\"Tr (Subida): {tr if isinstance(tr, str) else f'{tr:.3f} s'}\"\n",
+        "        )\n",
+        "\n",
+        "# La siguiente sección incluirá las pestañas de gráficos (te la entrego en el siguiente bloque si estás listo)\n"
+      ],
+      "metadata": {
+        "id": "_EId5gfYQXMD",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "0f5f3ea8-6f67-4c66-9ef4-a0433979d617"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Writing 1_Modelo_2do_Orden.py\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!mv 1_Modelo_2do_Orden.py pages/"
+      ],
+      "metadata": {
+        "id": "D_WSDLbSQifm"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "##Punto 2"
+      ],
+      "metadata": {
+        "id": "LcoHtp6WQqnY"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%%writefile 2_Modulador_SSB_FFT.py\n",
+        "# Importación de bibliotecas necesarias\n",
+        "import streamlit as st\n",
+        "import numpy as np\n",
+        "from scipy.fft import fft, ifft, fftshift, ifftshift, fftfreq\n",
+        "from scipy.io import wavfile\n",
+        "import matplotlib.pyplot as plt\n",
+        "import yt_dlp\n",
+        "import os\n",
+        "import subprocess\n",
+        "\n",
+        "# Configuración inicial de la página web del dashboard\n",
+        "st.set_page_config(\n",
+        "    page_title=\"Simulación SSB-AM vía FFT\",  # Título de la pestaña\n",
+        "    page_icon=\"🎚️\",                         # Ícono de la pestaña\n",
+        "    layout=\"wide\",                          # Layout ancho\n",
+        ")\n",
+        "\n",
+        "# Título principal de la aplicación\n",
+        "st.title(\"🎚️ Plataforma de SSB-AM por Espectro en Frecuencia\")\n",
+        "\n",
+        "# Descripción breve de la funcionalidad\n",
+        "st.write(\n",
+        "    \"Este entorno permite visualizar la modulación y recuperación de señales SSB mediante \"\n",
+        "    \"procesamiento espectral con FFT.\"\n",
+        ")\n",
+        "\n",
+        "# Mensaje informativo sobre requisitos para usar YouTube\n",
+        "st.info(\"Para usar enlaces de YouTube asegúrate de tener `yt-dlp` y `ffmpeg` instalados correctamente.\", icon=\"💡\")\n",
+        "\n",
+        "# -----------------------------------------------\n",
+        "# DEFINICIÓN DE FUNCIONES AUXILIARES\n",
+        "# -----------------------------------------------\n",
+        "\n",
+        "@st.cache_data\n",
+        "def obtener_audio_desde_youtube(url, duracion=5, inicio=0):\n",
+        "    \"\"\"\n",
+        "    Descarga un segmento de audio desde YouTube y lo convierte a WAV mono para su análisis.\n",
+        "    Utiliza caché para evitar descargas repetidas.\n",
+        "    \"\"\"\n",
+        "    archivo_temp = 'temp_audio.wav'           # Nombre del archivo descargado\n",
+        "    archivo_recorte = 'cropped_audio.wav'     # Nombre del archivo ya recortado\n",
+        "\n",
+        "    try:\n",
+        "        # Configuración para yt_dlp\n",
+        "        ydl_opts = {\n",
+        "            'format': 'bestaudio/best',\n",
+        "            'postprocessors': [{'key': 'FFmpegExtractAudio', 'preferredcodec': 'wav'}],\n",
+        "            'outtmpl': 'temp_audio',\n",
+        "            'quiet': True,\n",
+        "        }\n",
+        "\n",
+        "        # Elimina archivos anteriores si existen\n",
+        "        if os.path.exists(archivo_temp):\n",
+        "            os.remove(archivo_temp)\n",
+        "        if os.path.exists(archivo_recorte):\n",
+        "            os.remove(archivo_recorte)\n",
+        "\n",
+        "        # Descarga el audio desde la URL proporcionada\n",
+        "        with yt_dlp.YoutubeDL(ydl_opts) as ydl:\n",
+        "            ydl.download([url])\n",
+        "\n",
+        "        # Recorta el audio descargado usando ffmpeg\n",
+        "        comando = [\n",
+        "            'ffmpeg', '-i', archivo_temp, '-ss', str(inicio),\n",
+        "            '-t', str(duracion), '-acodec', 'pcm_s16le',\n",
+        "            '-ar', '44100', '-ac', '1', archivo_recorte, '-y'\n",
+        "        ]\n",
+        "        subprocess.run(comando, check=True, capture_output=True)\n",
+        "\n",
+        "        # Carga el archivo recortado\n",
+        "        tasa_muestreo, datos_audio = wavfile.read(archivo_recorte)\n",
+        "\n",
+        "        # Conversión a mono si es necesario\n",
+        "        if datos_audio.ndim > 1:\n",
+        "            datos_audio = datos_audio.mean(axis=1)\n",
+        "        datos_audio = datos_audio / np.max(np.abs(datos_audio))  # Normalización\n",
+        "        señal_m = datos_audio\n",
+        "\n",
+        "        # Construcción del vector de tiempo\n",
+        "        tiempo = np.linspace(inicio, inicio + len(señal_m) / tasa_muestreo, len(señal_m), endpoint=False)\n",
+        "\n",
+        "        # Limpieza de archivos temporales\n",
+        "        if os.path.exists(archivo_temp):\n",
+        "            os.remove(archivo_temp)\n",
+        "        if os.path.exists(archivo_recorte):\n",
+        "            os.remove(archivo_recorte)\n",
+        "\n",
+        "        return señal_m, tasa_muestreo, tiempo\n",
+        "\n",
+        "    except Exception as e:\n",
+        "        st.error(f\"Hubo un error al intentar obtener el audio: {e}\")\n",
+        "        if os.path.exists(archivo_temp):\n",
+        "            os.remove(archivo_temp)\n",
+        "        if os.path.exists(archivo_recorte):\n",
+        "            os.remove(archivo_recorte)\n",
+        "        return None, None, None\n",
+        "\n",
+        "def graficar_tiempo(t, señal, titulo):\n",
+        "    \"\"\"Genera un gráfico temporal de la señal.\"\"\"\n",
+        "    fig, ax = plt.subplots(figsize=(10, 4))\n",
+        "    ax.plot(t, señal, lw=1)\n",
+        "    ax.set_title(titulo)\n",
+        "    ax.set_xlabel(\"Tiempo (s)\")\n",
+        "    ax.set_ylabel(\"Amplitud\")\n",
+        "    ax.grid(True)\n",
+        "    ax.margins(x=0.01, y=0.1)\n",
+        "    plt.tight_layout()\n",
+        "    return fig\n",
+        "\n",
+        "def graficar_frecuencia(señal, fs, titulo, limite=None):\n",
+        "    \"\"\"Genera el espectro de magnitud de la señal (FFT).\"\"\"\n",
+        "    fig, ax = plt.subplots(figsize=(10, 4))\n",
+        "    N = len(señal)\n",
+        "    if N == 0: return fig\n",
+        "    fft_val = fftshift(fft(señal))\n",
+        "    fft_freqs = fftshift(fftfreq(N, 1 / fs))\n",
+        "    ax.plot(fft_freqs, np.abs(fft_val) / N, lw=1)\n",
+        "    ax.set_title(titulo)\n",
+        "    ax.set_xlabel(\"Frecuencia (Hz)\")\n",
+        "    ax.set_ylabel(\"Magnitud\")\n",
+        "    ax.grid(True)\n",
+        "    if limite:\n",
+        "        ax.set_xlim(limite)\n",
+        "    plt.tight_layout()\n",
+        "    return fig\n",
+        "\n",
+        "def modular_ssb_fft(m, t, fs, fc, banda):\n",
+        "    \"\"\"Modula la señal m(t) usando SSB mediante filtrado espectral.\"\"\"\n",
+        "    señal_dsb = m * (2 * np.cos(2 * np.pi * fc * t))\n",
+        "    espectro_dsb = fftshift(fft(señal_dsb))\n",
+        "    freqs = fftshift(fftfreq(len(t), 1 / fs))\n",
+        "\n",
+        "    # Filtro para seleccionar banda USB o LSB\n",
+        "    if banda == 'USB (Superior)':\n",
+        "        filtro = np.where(freqs > fc, 1, 0)\n",
+        "    else:\n",
+        "        filtro = np.where(freqs < -fc, 1, 0)\n",
+        "\n",
+        "    espectro_ssb = espectro_dsb * filtro\n",
+        "    señal_ssb = np.real(ifft(ifftshift(espectro_ssb)))\n",
+        "    return señal_ssb\n",
+        "\n",
+        "def demodular_ssb_fft(ssb, t, fs, fc, bw):\n",
+        "    \"\"\"Demodula la señal SSB aplicando remultiplicación y paso bajo.\"\"\"\n",
+        "    señal_product = ssb * (2 * np.cos(2 * np.pi * fc * t))\n",
+        "    espectro_v = fftshift(fft(señal_product))\n",
+        "    freqs = fftshift(fftfreq(len(t), 1 / fs))\n",
+        "    paso_bajo = np.where(np.abs(freqs) <= bw * 1.2, 1, 0)\n",
+        "    espectro_demod = espectro_v * paso_bajo\n",
+        "    mensaje_recuperado = np.real(ifft(ifftshift(espectro_demod)))\n",
+        "    return mensaje_recuperado\n",
+        "\n",
+        "# -----------------------------------------------\n",
+        "# INTERFAZ DE USUARIO (barra lateral)\n",
+        "# -----------------------------------------------\n",
+        "\n",
+        "# Encabezado en la barra lateral\n",
+        "st.sidebar.header(\"⚙️ Ajustes Generales\")\n",
+        "\n",
+        "# Tipo de señal a usar\n",
+        "tipo_mensaje = st.sidebar.selectbox(\n",
+        "    \"1. Tipo de señal a modular\",\n",
+        "    (\"Pulso Rectangular\", \"Audio desde YouTube\"),\n",
+        "    help=\"Selecciona la fuente del mensaje.\"\n",
+        ")\n",
+        "\n",
+        "# Inicialización de variables\n",
+        "señal_m, fs, t, bw_mensaje = None, 44100, None, 0\n",
+        "duracion = st.sidebar.slider(\"Duración de señal (s)\", 1, 20, 5, 1)\n",
+        "\n",
+        "# Caso: Pulso rectangular\n",
+        "if tipo_mensaje == \"Pulso Rectangular\":\n",
+        "    t = np.linspace(0, duracion, int(duracion * fs), endpoint=False)\n",
+        "    ancho_pulso = st.sidebar.slider(\"Duración del pulso (s)\", 0.1, 2.0, 0.5, 0.1)\n",
+        "    señal_m = np.zeros_like(t)\n",
+        "    señal_m[t < ancho_pulso] = 1.0\n",
+        "    bw_mensaje = 4 / ancho_pulso\n",
+        "    st.sidebar.info(f\"Ancho de banda estimado: {bw_mensaje:.1f} Hz\")\n",
+        "\n",
+        "# Caso: Audio de YouTube\n",
+        "elif tipo_mensaje == \"Audio desde YouTube\":\n",
+        "    enlace = st.sidebar.text_input(\"Pega un enlace de YouTube\", \"https://www.youtube.com/watch?v=s5cYXknsDbY\")\n",
+        "    inicio = st.sidebar.slider(\"Inicio del audio (s)\", 0, 300, 50, 1)\n",
+        "    if enlace:\n",
+        "        with st.spinner(f\"Procesando desde el segundo {inicio}...\"):\n",
+        "            señal_m, fs, t = obtener_audio_desde_youtube(enlace, duracion=duracion, inicio=inicio)\n",
+        "        bw_mensaje = 20000\n",
+        "        if fs:\n",
+        "            st.sidebar.info(f\"Ancho de banda: {bw_mensaje} Hz\\nFrecuencia de muestreo: {fs} Hz\")\n",
+        "\n",
+        "# Frecuencia de portadora\n",
+        "fc_maxima = (fs / 2) - bw_mensaje if fs and bw_mensaje > 0 else 20000\n",
+        "if fc_maxima < 1000: fc_maxima = 1000\n",
+        "fc = st.sidebar.slider(\"Frecuencia de Portadora (Hz)\", 1000.0, fc_maxima, 10000.0, 500.0)\n",
+        "\n",
+        "# Elección de banda lateral\n",
+        "banda = st.sidebar.radio(\"2. Banda lateral a usar\", (\"USB (Superior)\", \"LSB (Inferior)\"))\n",
+        "\n",
+        "# -----------------------------------------------\n",
+        "# PROCESO COMPLETO DE MODULACIÓN Y DEMODULACIÓN\n",
+        "# -----------------------------------------------\n",
+        "\n",
+        "if señal_m is not None and t is not None:\n",
+        "    # Visualización de la señal original\n",
+        "    st.header(\"1. Señal de Entrada m(t)\")\n",
+        "    col1, col2 = st.columns(2)\n",
+        "    with col1:\n",
+        "        st.pyplot(graficar_tiempo(t, señal_m, \"Señal Original en Tiempo\"))\n",
+        "    with col2:\n",
+        "        st.pyplot(graficar_frecuencia(señal_m, fs, \"Espectro del Mensaje\", limite=(-bw_mensaje * 1.5, bw_mensaje * 1.5)))\n",
+        "    if tipo_mensaje == \"Audio desde YouTube\":\n",
+        "        st.audio(señal_m, format=\"audio/wav\", sample_rate=fs)\n",
+        "\n",
+        "    # Proceso de modulación\n",
+        "    st.markdown(\"---\")\n",
+        "    st.header(\"2. Modulación en Banda Lateral SSB (FFT)\")\n",
+        "    st.write(\"Se construye señal DSB y se filtra espectralmente para conservar una sola banda.\")\n",
+        "    señal_ssb = modular_ssb_fft(señal_m, t, fs, fc, banda)\n",
+        "    st.pyplot(graficar_frecuencia(señal_ssb, fs, f\"Espectro Modulado {banda}\", limite=(fc - bw_mensaje * 1.5, fc + bw_mensaje * 1.5)))\n",
+        "\n",
+        "    # Proceso de demodulación\n",
+        "    st.markdown(\"---\")\n",
+        "    st.header(\"3. Recuperación de la Señal Original\")\n",
+        "    st.write(\"Se remultiplica con portadora y se filtra para extraer el mensaje original.\")\n",
+        "    señal_recuperada = demodular_ssb_fft(señal_ssb, t, fs, fc, bw_mensaje)\n",
+        "\n",
+        "    # Resultados finales\n",
+        "    st.write(\"#### Resultado tras Demodulación\")\n",
+        "    col1, col2 = st.columns(2)\n",
+        "    with col1:\n",
+        "        st.pyplot(graficar_tiempo(t, señal_recuperada, \"Señal Recuperada en Tiempo\"))\n",
+        "    with col2:\n",
+        "        st.pyplot(graficar_frecuencia(señal_recuperada, fs, \"Espectro de la Recuperación\", limite=(-bw_mensaje * 1.5, bw_mensaje * 1.5)))\n",
+        "    if tipo_mensaje == \"Audio desde YouTube\":\n",
+        "        st.audio(señal_recuperada, format=\"audio/wav\", sample_rate=fs)\n",
+        "\n",
+        "else:\n",
+        "    st.info(\"Ajusta los controles laterales para comenzar la simulación.\")\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "QrUbUTnEQr5w",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "6df25765-4750-4795-e528-02e39161d328"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Writing 2_Modulador_SSB_FFT.py\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!mv 2_Modulador_SSB_FFT.py pages/\n"
+      ],
+      "metadata": {
+        "id": "5f_sKNnTQ2CW"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#**Inicialización del Dashboard a partir de túnel local**\n",
+        "1. **Reemplazar nombre de archivo:** Reemplaza el nombre del archivo como se indica en el comentario de la linea 6 de la celda de codigo\n",
+        "\n",
+        "2. **Accede al enlace provisional:** Una vez que la aplicación esté corriendo, LocalTunnel generará un enlace temporal. Haz clic o copia ese enlace para acceder a tu aplicación en el navegador (cada vez que corras la celda, el link podrá ser diferente).\n",
+        "\n",
+        "**Nota:** Para finalizar la ejecución del Dashboard ejecuta la ultima celda de codigo y sigue las instrucciones."
+      ],
+      "metadata": {
+        "id": "p6c79k4nQ9Se"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Descarga e instalación de Cloudflared para crear el túnel de acceso\n",
+        "!wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64\n",
+        "!chmod +x cloudflared-linux-amd64\n",
+        "!mv cloudflared-linux-amd64 /usr/local/bin/cloudflared\n",
+        "\n",
+        "# Iniciar la aplicación principal desarrollada en Streamlit\n",
+        "!streamlit run 0_👋_Inicio.py &>/content/logs.txt &  # Cambiar al nombre correcto de tu archivo inicial\n",
+        "\n",
+        "# Crear un túnel con Cloudflare hacia el puerto 8501 de la app\n",
+        "!cloudflared tunnel --url http://localhost:8501 > /content/cloudflared.log 2>&1 &\n",
+        "\n",
+        "# Esperar unos segundos para permitir que se configure correctamente el túnel\n",
+        "import time\n",
+        "time.sleep(5)  # Tiempo de espera previo a leer el archivo de log\n",
+        "\n",
+        "# Buscar la URL pública generada en el log de Cloudflared\n",
+        "import re\n",
+        "tunnel_activo = False  # Indicador de que el túnel está listo\n",
+        "\n",
+        "# Abrir y leer el archivo de log generado por Cloudflared\n",
+        "with open('/content/cloudflared.log') as archivo:\n",
+        "    for linea in archivo:\n",
+        "        # Detectar si se ha creado correctamente el túnel\n",
+        "        if \"Your quick Tunnel has been created\" in linea:\n",
+        "            tunnel_activo = True\n",
+        "\n",
+        "        # Una vez activo, extraer el primer enlace HTTP/HTTPS disponible\n",
+        "        if tunnel_activo:\n",
+        "            coincidencia = re.search(r'https?://\\S+', linea)\n",
+        "            if coincidencia:\n",
+        "                url_final = coincidencia.group(0)\n",
+        "                print(f'Puedes acceder al dashboard desde: {url_final}')\n",
+        "                break\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "ksa4PloyRPjF",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "70a6619c-615f-4be5-b3ad-d2a19e298c92"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "--2025-07-09 02:30:28--  https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64\n",
+            "Resolving github.com (github.com)... 140.82.113.4\n",
+            "Connecting to github.com (github.com)|140.82.113.4|:443... connected.\n",
+            "HTTP request sent, awaiting response... 302 Found\n",
+            "Location: https://github.com/cloudflare/cloudflared/releases/download/2025.7.0/cloudflared-linux-amd64 [following]\n",
+            "--2025-07-09 02:30:28--  https://github.com/cloudflare/cloudflared/releases/download/2025.7.0/cloudflared-linux-amd64\n",
+            "Reusing existing connection to github.com:443.\n",
+            "HTTP request sent, awaiting response... 302 Found\n",
+            "Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/106867604/37d2bad8-a2ed-4b93-8139-cbb15162d81d?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250709%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250709T022914Z&X-Amz-Expires=1800&X-Amz-Signature=d0055e89b7f2bab59a73243893975fcd0fd9393437a96d29742b6510bd1f5ffe&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dcloudflared-linux-amd64&response-content-type=application%2Foctet-stream [following]\n",
+            "--2025-07-09 02:30:28--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/106867604/37d2bad8-a2ed-4b93-8139-cbb15162d81d?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250709%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250709T022914Z&X-Amz-Expires=1800&X-Amz-Signature=d0055e89b7f2bab59a73243893975fcd0fd9393437a96d29742b6510bd1f5ffe&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dcloudflared-linux-amd64&response-content-type=application%2Foctet-stream\n",
+            "Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...\n",
+            "Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.111.133|:443... connected.\n",
+            "HTTP request sent, awaiting response... 200 OK\n",
+            "Length: 41168761 (39M) [application/octet-stream]\n",
+            "Saving to: ‘cloudflared-linux-amd64’\n",
+            "\n",
+            "cloudflared-linux-a 100%[===================>]  39.26M  22.2MB/s    in 1.8s    \n",
+            "\n",
+            "2025-07-09 02:30:30 (22.2 MB/s) - ‘cloudflared-linux-amd64’ saved [41168761/41168761]\n",
+            "\n",
+            "Puedes acceder al dashboard desde: https://switzerland-work-greetings-sq.trycloudflare.com\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#**Finalización de ejecución del Dashboard**"
+      ],
+      "metadata": {
+        "id": "EeIbzI5BRUcS"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Importa el módulo 'os' que permite interactuar con el sistema operativo\n",
+        "import os\n",
+        "\n",
+        "# Solicita al usuario una confirmación para finalizar la aplicación\n",
+        "res = input(\"Digite (1) para finalizar la ejecución del Dashboard: \")\n",
+        "\n",
+        "# Verifica si el usuario escribió \"1\", sin importar mayúsculas o minúsculas\n",
+        "if res.upper() == \"1\":\n",
+        "    # Ejecuta un comando del sistema para terminar cualquier proceso de Streamlit en ejecución\n",
+        "    os.system(\"pkill streamlit\")\n",
+        "\n",
+        "    # Imprime una confirmación indicando que el proceso fue detenido\n",
+        "    print(\"El proceso de Streamlit ha sido finalizado.\")"
+      ],
+      "metadata": {
+        "id": "QT5IZWWPRbJV"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
